@@ -1,6 +1,3 @@
-Here's an updated `README.md` file for your project:
-
-```markdown
 # Book Management API
 
 This project is a Book Management API built using the Java Spring Boot framework. It interacts with an in-memory H2 database and utilizes the JDBC Template API for database operations as per the given task requirements.
@@ -90,7 +87,3 @@ This project is licensed under the MIT License.
 ## Repository
 
 For more details, please visit the [GitHub repository](https://github.com/mirsaidoff/OneVizionDemo).
-
-```
-
-Feel free to modify and expand on this template based on additional details from your project.
