@@ -15,34 +15,12 @@ The task involves creating a RESTful API with the following functionalities:
 
 The project follows a standard Spring Boot structure:
 
-```
-src
-├── main
-│   ├── java
-│   │   └── com
-│   │       └── example
-│   │           └── oneviziondemo
-│   │               ├── controller
-│   │               ├── model
-│   │               ├── repository
-│   │               └── service
-│   └── resources
-│       ├── static
-│       ├── templates
-│       └── application.properties
-└── test
-    └── java
-        └── com
-            └── example
-                └── oneviziondemo
-```
-
 ## Endpoints
 
-1. **List All Books**: `GET /books`
-2. **Add a New Book**: `POST /books`
-3. **List Books Grouped by Author**: `GET /books/grouped-by-author`
-4. **Find Top Authors by Character Occurrence**: `GET /books/top-authors?char={char}`
+1. **List All Books**: `GET /`
+2. **Add a New Book**: `POST /`
+3. **List Books Grouped by Author**: `GET /`
+4. **Find Top Authors by Character Occurrence**: `GET /`
 
 ## Database
 
