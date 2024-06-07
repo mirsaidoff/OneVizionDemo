@@ -3,7 +3,6 @@ package com.onevizion.test.oneviziontest.book;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("book/v1")
@@ -24,15 +23,15 @@ public class BookQueryController {
 
 
     @GetMapping("/list/{groupBy}")
-    List<Object[]> getBooksGroupedBy(@PathVariable String groupBy) {
+    List<AuthorBooks> getBooksGroupedBy(@PathVariable String groupBy) {
         if (groupBy.equals("author")) {
-            return queryService.findByAuthor();
+            return queryService.getBooksGroupedByAuthor();
         }
         return List.of();
     }
 
-    @GetMapping("/list/4/{symbol}")             //todo change the name "4"
-    Map<String, Integer> getAuthorBookCountBySymbolOccurrence(@PathVariable Character symbol) {
+    @GetMapping("/list/author-book-symbol-count")
+    List<AuthorBookTitleSymbolCount> getAuthorBookCountBySymbolOccurrence(@RequestParam(name = "symbol") String symbol) {
         return queryService.getAuthorBookCountBySymbolOccurrence(symbol);
     }
 
