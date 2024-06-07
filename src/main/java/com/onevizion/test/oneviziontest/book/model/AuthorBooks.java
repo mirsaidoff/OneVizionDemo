@@ -1,4 +1,4 @@
-package com.onevizion.test.oneviziontest.book;
+package com.onevizion.test.oneviziontest.book.model;
 
 import java.util.List;
 

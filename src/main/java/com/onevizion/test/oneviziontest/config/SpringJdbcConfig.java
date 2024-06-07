@@ -15,7 +15,7 @@ public class SpringJdbcConfig {
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:data.sql")
+//                .addScript("classpath:data.sql")
                 .build();
     }
 

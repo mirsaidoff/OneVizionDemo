@@ -1,5 +1,8 @@
-package com.onevizion.test.oneviziontest.book;
+package com.onevizion.test.oneviziontest.book.dao;
 
+import com.onevizion.test.oneviziontest.book.model.AuthorBookTitleSymbolCount;
+import com.onevizion.test.oneviziontest.book.model.AuthorBooks;
+import com.onevizion.test.oneviziontest.book.model.Book;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -7,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.onevizion.test.oneviziontest.book.model.Book.*;
 
 @Repository
 public class BookDao {
@@ -23,10 +28,10 @@ public class BookDao {
         String getBookByTitleDescQuery = "SELECT * FROM BOOK ORDER BY title DESC";
         return jdbcTemplate.query(getBookByTitleDescQuery,
                 (result, rowNum) -> new Book(
-                        result.getLong("id"),
-                        result.getString("title"),
-                        result.getString("author"),
-                        result.getString("description")));
+                        result.getLong(BOOK_FIELD_ID),
+                        result.getString(BOOK_FIELD_TITLE),
+                        result.getString(BOOK_FIELD_AUTHOR),
+                        result.getString(BOOK_FIELD_DESCRIPTION)));
     }
 
     public List<AuthorBooks> getAuthorBooks() {
@@ -36,7 +41,7 @@ public class BookDao {
                     String books = result.getString("book_list");
                     List<String> bookList = Arrays.stream(books.split(",")).toList();
                     return new AuthorBooks(
-                            result.getString("author"),
+                            result.getString(BOOK_FIELD_AUTHOR),
                             bookList
                     );
                 });
@@ -59,9 +64,19 @@ public class BookDao {
                 """;
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("symbol", s);
-        return namedParamJdbcTemplate.query(getAuthorBookCountBySymbolOccurrenceQuery, params, (result, rowNumb) -> new AuthorBookTitleSymbolCount(
-                result.getString("author"),
-                result.getInt("symbol_count")
-        ));
+        return namedParamJdbcTemplate.query(getAuthorBookCountBySymbolOccurrenceQuery, params, (result, rowNumb) ->
+                new AuthorBookTitleSymbolCount(
+                        result.getString(BOOK_FIELD_AUTHOR),
+                        result.getInt("symbol_count")
+                ));
+    }
+
+    public List<Book> getAllBooks() {
+        String getAllBooksQuery = "SELECT * FROM BOOK";
+        return jdbcTemplate.query(getAllBooksQuery, (result, rowNum) ->
+                new Book(result.getLong(BOOK_FIELD_ID),
+                        result.getString(BOOK_FIELD_TITLE),
+                        result.getString(BOOK_FIELD_AUTHOR),
+                        result.getString(BOOK_FIELD_DESCRIPTION)));
     }
 }
