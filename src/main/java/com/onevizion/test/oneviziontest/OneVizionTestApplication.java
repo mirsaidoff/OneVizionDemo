@@ -1,6 +1,6 @@
 package com.onevizion.test.oneviziontest;
 
-import com.onevizion.test.oneviziontest.book.dao.BookDao;
+import com.onevizion.test.oneviziontest.book.dao.BookDaoImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class OneVizionTestApplication implements CommandLineRunner {
     @Autowired
     private DataBaseSeeder databaseSeeder;
     @Autowired
-    private BookDao bookDao;
+    private BookDaoImpl bookDao;
 
     public static void main(String[] args) {
         SpringApplication.run(OneVizionTestApplication.class, args);

@@ -1,6 +1,6 @@
 package com.onevizion.test.oneviziontest;
 
-import com.onevizion.test.oneviziontest.book.dao.BookDao;
+import com.onevizion.test.oneviziontest.book.dao.BookDaoImpl;
 import com.onevizion.test.oneviziontest.book.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,37 +9,32 @@ import org.springframework.stereotype.Component;
 public class DataBaseSeeder {
 
     @Autowired
-    BookDao bookDao;
+    BookDaoImpl bookDao;
 
     public void insertInitialData() {
-        bookDao.save(new Book(
-                "Crime and Punishment",
-                "F. Dostoevsky",
-                null
-        ));
+        bookDao.save(new Book.Builder()
+                .title("Crime and Punishment")
+                .author("F. Dostoevsky")
+                .build());
 
-        bookDao.save(new Book(
-                "Anna Karenina",
-                "L. Tolstoy",
-                null
-        ));
+        bookDao.save(new Book.Builder()
+                .title("Anna Karenina")
+                .author("L. Tolstoy")
+                .build());
 
-        bookDao.save(new Book(
-                "The Brothers Karamazov",
-                "F. Dostoevsky",
-                null
-        ));
+        bookDao.save(new Book.Builder()
+                .title("The Brothers Karamazov")
+                .author("F. Dostoevsky")
+                .build());
 
-        bookDao.save(new Book(
-                "War and Peace",
-                "L. Tolstoy",
-                null
-        ));
+        bookDao.save(new Book.Builder()
+                .title("War and Peace")
+                .author("L. Tolstoy")
+                .build());
 
-        bookDao.save(new Book(
-                "Dead Souls",
-                "N. Gogol",
-                null
-        ));
+        bookDao.save(new Book.Builder()
+                .title("Dead Souls")
+                .author("N. Gogol")
+                .build());
     }
 }

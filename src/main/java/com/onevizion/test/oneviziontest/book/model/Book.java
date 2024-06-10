@@ -14,9 +14,9 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    public String title;
-    public String author;
-    public String description;
+    private String title;
+    private String author;
+    private String description;
 
     public Book(String title, String author, String description) {
         this.title = title;
@@ -27,6 +27,31 @@ public class Book {
     @Override
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", description=" + description + "]";
+    }
+
+    public static class Builder {
+        private String title;
+        private String author;
+        private String description;
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder author(String author) {
+            this.author = author;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Book build() {
+            return new Book(this.title, this.author, this.description);
+        }
     }
 
     public static String BOOK_FIELD_ID = "id";
