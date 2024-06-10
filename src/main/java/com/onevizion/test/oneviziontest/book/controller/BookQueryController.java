@@ -17,16 +17,14 @@ import static com.onevizion.test.oneviziontest.book.model.Book.BOOK_FIELD_AUTHOR
 public class BookQueryController {
 
     private final BookQueryService queryService;
-    private final BookQueryService bookQueryService;
 
-    public BookQueryController(BookQueryService queryService, BookQueryService bookQueryService) {
+    public BookQueryController(BookQueryService queryService) {
         this.queryService = queryService;
-        this.bookQueryService = bookQueryService;
     }
 
     @GetMapping("/list-ordered/title/desc")
     public List<Book> listOrderedTitleDesc() {
-        return bookQueryService.getAllBooksByTitleDesc();
+        return queryService.getAllBooksByTitleDesc();
     }
 
 
