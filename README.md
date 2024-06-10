@@ -17,10 +17,10 @@ The project follows a standard Spring Boot structure:
 
 ## Endpoints
 
-1. **List All Books**: `GET /`
-2. **Add a New Book**: `POST /`
-3. **List Books Grouped by Author**: `GET /`
-4. **Find Top Authors by Character Occurrence**: `GET /`
+1. **List All Books by Title in Descending Order**: `GET /list-ordered/title/desc`
+2. **Add a New Book**: `POST /add`
+3. **List Books Grouped by Author**: `GET /list/author`
+4. **Find Top Authors by Character Occurrence**: `GET /list/author-book-symbol-count`
 
 ## Database
 
