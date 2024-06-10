@@ -1,25 +1,28 @@
 package com.onevizion.test.oneviziontest.book.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table
 public class Book {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     public String title;
     public String author;
     public String description;
+
+    public Book(String title, String author, String description) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+    }
 
     @Override
     public String toString() {

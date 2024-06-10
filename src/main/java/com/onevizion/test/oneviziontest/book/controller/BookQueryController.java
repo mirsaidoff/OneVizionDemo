@@ -4,7 +4,9 @@ import com.onevizion.test.oneviziontest.book.service.BookQueryService;
 import com.onevizion.test.oneviziontest.book.model.AuthorBookTitleSymbolCount;
 import com.onevizion.test.oneviziontest.book.model.AuthorBooks;
 import com.onevizion.test.oneviziontest.book.model.Book;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -30,12 +32,15 @@ public class BookQueryController {
 
     @GetMapping("/list/{groupBy}")
     List<AuthorBooks> getBooksGroupedBy(@PathVariable String groupBy) {
-        if (groupBy.equals(BOOK_FIELD_AUTHOR)) {
-            return queryService.getBooksGroupedByAuthor();
-        }
-        //made it as much as flexible, so we could handle other group-by cases here
+        List<AuthorBooks> result;
 
-        return List.of();
+        if (groupBy.equals(BOOK_FIELD_AUTHOR)) {
+            result = queryService.getBooksGroupedByAuthor();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No results found for " + groupBy);
+        }
+
+        return result;
     }
 
     @GetMapping("/list/author-book-symbol-count")

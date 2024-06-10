@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,16 +27,14 @@ public class BookDao {
 
     public List<Book> getBooksByTitleDesc() {
         String getBookByTitleDescQuery = "SELECT * FROM BOOK ORDER BY title DESC";
+
         return jdbcTemplate.query(getBookByTitleDescQuery,
-                (result, rowNum) -> new Book(
-                        result.getLong(BOOK_FIELD_ID),
-                        result.getString(BOOK_FIELD_TITLE),
-                        result.getString(BOOK_FIELD_AUTHOR),
-                        result.getString(BOOK_FIELD_DESCRIPTION)));
+                (result, rowNum) -> mapRowToBook(result));
     }
 
     public List<AuthorBooks> getAuthorBooks() {
         String getAuthorBooksQuery = "SELECT a.author, GROUP_CONCAT(a.title) AS book_list FROM Book a GROUP BY a.author";
+
         return jdbcTemplate.query(getAuthorBooksQuery,
                 (result, rowNum) -> {
                     String books = result.getString("book_list");
@@ -55,15 +54,17 @@ public class BookDao {
 
     public List<AuthorBookTitleSymbolCount> getAuthorBookCountBySymbolOccurrence(String s) {
         String getAuthorBookCountBySymbolOccurrenceQuery = """
-                SELECT b.author, SUM(LENGTH(b.title) - LENGTH(REPLACE(b.title, :symbol, ''))) AS symbol_count
+                SELECT b.author, SUM(LENGTH(LOWER(b.title)) - LENGTH(REPLACE(LOWER(b.title), :symbol, ''))) AS symbol_count
                 FROM book b
                 GROUP BY b.author
                 HAVING symbol_count > 0
                 ORDER BY symbol_count DESC
                 LIMIT 10
                 """;
+
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("symbol", s);
+
         return namedParamJdbcTemplate.query(getAuthorBookCountBySymbolOccurrenceQuery, params, (result, rowNumb) ->
                 new AuthorBookTitleSymbolCount(
                         result.getString(BOOK_FIELD_AUTHOR),
@@ -73,10 +74,14 @@ public class BookDao {
 
     public List<Book> getAllBooks() {
         String getAllBooksQuery = "SELECT * FROM BOOK";
-        return jdbcTemplate.query(getAllBooksQuery, (result, rowNum) ->
-                new Book(result.getLong(BOOK_FIELD_ID),
-                        result.getString(BOOK_FIELD_TITLE),
-                        result.getString(BOOK_FIELD_AUTHOR),
-                        result.getString(BOOK_FIELD_DESCRIPTION)));
+
+        return jdbcTemplate.query(getAllBooksQuery, (result, rowNum) -> mapRowToBook(result));
+    }
+
+    private Book mapRowToBook(final ResultSet result) throws SQLException {
+        return new Book(result.getLong(BOOK_FIELD_ID),
+                result.getString(BOOK_FIELD_TITLE),
+                result.getString(BOOK_FIELD_AUTHOR),
+                result.getString(BOOK_FIELD_DESCRIPTION));
     }
 }
